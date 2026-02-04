@@ -127,11 +127,7 @@ const FundTable: React.FC<FundTableProps> = ({
                 <span
                   style={{
                     color:
-                      dayGain > 0
-                        ? "#cf1322"
-                        : dayGain < 0
-                          ? "#3f8600"
-                          : "#000",
+                      dayGain > 0 ? "red" : dayGain < 0 ? "green" : "black",
                   }}
                 >
                   {dayGain > 0 ? "+" : ""}
@@ -141,8 +137,7 @@ const FundTable: React.FC<FundTableProps> = ({
                   style={{
                     fontSize: 12,
                     fontWeight: "normal",
-                    color:
-                      gszzl > 0 ? "#cf1322" : gszzl < 0 ? "#3f8600" : "gray",
+                    color: gszzl > 0 ? "red" : gszzl < 0 ? "green" : "gray",
                   }}
                 >
                   ({gszzl > 0 ? "+" : ""}
