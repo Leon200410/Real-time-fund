@@ -12,6 +12,7 @@ import {
   Alert,
 } from "antd";
 import { PlusOutlined, FileTextOutlined } from "@ant-design/icons";
+import { searchFund, fetchFundData } from "../services/api";
 import { FundStorageItem } from "../types";
 import { parseFundText, ParsedFundItem } from "../utils/parser";
 
@@ -39,11 +40,34 @@ const AddFund: React.FC<AddFundProps> = ({ onAdd }) => {
   const handleCancel = () => setIsModalOpen(false);
 
   // Manual Add
-  const onFinish = (values: any) => {
+  const onFinish = async (values: any) => {
+    let share = values.share;
+    let cost = values.cost;
+
+    // 如果输入的是持仓金额，则需要计算份额
+    if (values.amount !== undefined && values.gain !== undefined) {
+      const amount = values.amount;
+      const gain = values.gain;
+      cost = amount - gain;
+
+      try {
+        const fundData = await fetchFundData(values.code);
+        if (fundData && fundData.dwjz) {
+          share = parseFloat((amount / parseFloat(fundData.dwjz)).toFixed(2));
+        } else {
+          message.error("无法获取当前净值，无法计算份额");
+          return;
+        }
+      } catch (e) {
+        message.error("获取基金数据失败");
+        return;
+      }
+    }
+
     onAdd({
       code: values.code,
-      share: values.share,
-      cost: values.cost,
+      share: share,
+      cost: cost,
     });
     setIsModalOpen(false);
     form.resetFields();
@@ -171,9 +195,9 @@ const AddFund: React.FC<AddFundProps> = ({ onAdd }) => {
                     <Input placeholder="001186" maxLength={6} />
                   </Form.Item>
                   <Form.Item
-                    name="share"
-                    label="持有份额"
-                    rules={[{ required: true, message: "请输入持有份额" }]}
+                    name="amount"
+                    label="持仓金额(市值)"
+                    rules={[{ required: true, message: "请输入持仓金额" }]}
                   >
                     <InputNumber
                       style={{ width: "100%" }}
@@ -183,14 +207,13 @@ const AddFund: React.FC<AddFundProps> = ({ onAdd }) => {
                     />
                   </Form.Item>
                   <Form.Item
-                    name="cost"
-                    label="持仓成本(总金额) - 可选"
-                    tooltip="如果不填，将无法计算持有收益"
+                    name="gain"
+                    label="持有收益"
+                    rules={[{ required: true, message: "请输入持有收益" }]}
                   >
                     <InputNumber
                       style={{ width: "100%" }}
                       placeholder="0.00"
-                      min={0}
                       precision={2}
                     />
                   </Form.Item>
