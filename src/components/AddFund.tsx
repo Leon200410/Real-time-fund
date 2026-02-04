@@ -12,7 +12,7 @@ import {
   Alert,
 } from "antd";
 import { PlusOutlined, FileTextOutlined } from "@ant-design/icons";
-import { searchFund, fetchFundData } from "../services/api";
+import { fetchFundData } from "../services/api";
 import { FundStorageItem } from "../types";
 import { parseFundText, ParsedFundItem } from "../utils/parser";
 
