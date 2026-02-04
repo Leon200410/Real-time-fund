@@ -159,14 +159,10 @@ const FundTable: React.FC<FundTableProps> = ({
           );
         }
         return (
-          (
-            <div style={{ whiteSpace: "normal", wordBreak: "break-all" }}>
-              {text}
-              <div style={{ fontSize: 12, color: "#999" }}>
-                {record.fundcode}
-              </div>
-            </div>
-          ) || "--"
+          <div style={{ whiteSpace: "normal", wordBreak: "break-all" }}>
+            {text}
+            <div style={{ fontSize: 12, color: "#999" }}>{record.fundcode}</div>
+          </div>
         );
       },
     },
