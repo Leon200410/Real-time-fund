@@ -6,6 +6,8 @@ import {
   ExclamationCircleOutlined,
   ArrowUpOutlined,
   ArrowDownOutlined,
+  EyeOutlined,
+  EyeInvisibleOutlined,
 } from "@ant-design/icons";
 import { FundItem } from "../types";
 
@@ -121,35 +123,44 @@ const FundTable: React.FC<FundTableProps> = ({
                 gap: 2,
               }}
             >
-              <span
-                style={{
-                  color:
-                    dayGain > 0 ? "#cf1322" : dayGain < 0 ? "#3f8600" : "#000",
-                }}
-              >
-                {dayGain > 0 ? "+" : ""}
-                {dayGain.toFixed(2)}
-              </span>
-              <span
-                style={{
-                  fontSize: 12,
-                  fontWeight: "normal",
-                  color: gszzl > 0 ? "#cf1322" : gszzl < 0 ? "#3f8600" : "gray",
-                }}
-              >
-                ({gszzl > 0 ? "+" : ""}
-                {item.gszzl}%)
-              </span>
+              <>
+                <span
+                  style={{
+                    color:
+                      dayGain > 0
+                        ? "#cf1322"
+                        : dayGain < 0
+                          ? "#3f8600"
+                          : "#000",
+                  }}
+                >
+                  {dayGain > 0 ? "+" : ""}
+                  {dayGain.toFixed(2)}
+                </span>
+                <span
+                  style={{
+                    fontSize: 12,
+                    fontWeight: "normal",
+                    color:
+                      gszzl > 0 ? "#cf1322" : gszzl < 0 ? "#3f8600" : "gray",
+                  }}
+                >
+                  ({gszzl > 0 ? "+" : ""}
+                  {item.gszzl}%)
+                </span>
+              </>
             </div>
           </div>
           <div style={{ flex: "1 1 30%", minWidth: 80, textAlign: "center" }}>
             <div style={{ color: "#888", fontSize: 11 }}>持有市值</div>
-            <div style={{ fontSize: 14 }}>{marketVal.toFixed(2)}</div>
+            <div style={{ fontSize: 14 }}>
+              {showSensitive ? marketVal.toFixed(2) : "****"}
+            </div>
           </div>
           <div style={{ flex: "1 1 30%", minWidth: 80, textAlign: "right" }}>
             <div style={{ color: "#888", fontSize: 11 }}>持仓成本</div>
             <div style={{ fontSize: 14 }}>
-              {cost > 0 ? cost.toFixed(2) : "--"}
+              {showSensitive ? (cost > 0 ? cost.toFixed(2) : "--") : "****"}
             </div>
           </div>
         </div>
@@ -249,7 +260,7 @@ const FundTable: React.FC<FundTableProps> = ({
       render: (_: any, record: FundItem) => {
         if (record.gsz && record.share) {
           const val = parseFloat(record.gsz) * record.share;
-          return <span>{val.toFixed(2)}</span>;
+          return <span>{showSensitive ? val.toFixed(2) : "****"}</span>;
         }
         return "--";
       },
@@ -306,7 +317,8 @@ const FundTable: React.FC<FundTableProps> = ({
       dataIndex: "cost",
       key: "cost",
       width: 100,
-      render: (val: number) => (val ? val.toFixed(2) : "--"),
+      render: (val: number) =>
+        showSensitive ? (val ? val.toFixed(2) : "--") : "****",
     },
     {
       title: "更新时间",
@@ -333,8 +345,8 @@ const FundTable: React.FC<FundTableProps> = ({
     },
   ];
 
-  // Responsive switching
   const [isMobile, setIsMobile] = React.useState(window.innerWidth <= 768);
+  const [showSensitive, setShowSensitive] = React.useState(true); // Control sensitive data visibility
 
   React.useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <= 768);
@@ -370,7 +382,8 @@ const FundTable: React.FC<FundTableProps> = ({
           >
             <Statistic
               title="总市值"
-              value={totalValue}
+              value={showSensitive ? totalValue : undefined}
+              formatter={showSensitive ? undefined : () => "****"}
               precision={2}
               valueStyle={{ fontSize: isMobile ? 16 : 24 }}
             />
@@ -412,15 +425,24 @@ const FundTable: React.FC<FundTableProps> = ({
         </div>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-          <Button
-            icon={<ReloadOutlined />}
-            onClick={onRefresh}
-            loading={loading}
-            block={isMobile}
-            type={isMobile ? "primary" : "default"}
-          >
-            {isMobile ? "刷新数据" : "刷新"}
-          </Button>
+          <div style={{ display: "flex", gap: 4 }}>
+            <Button
+              icon={showSensitive ? <EyeOutlined /> : <EyeInvisibleOutlined />}
+              onClick={() => setShowSensitive(!showSensitive)}
+              block={isMobile}
+              style={!isMobile ? { width: 40 } : { flex: 1 }}
+            />
+            <Button
+              icon={<ReloadOutlined />}
+              onClick={onRefresh}
+              loading={loading}
+              block={isMobile}
+              type={isMobile ? "primary" : "default"}
+              style={isMobile ? { flex: 4 } : {}}
+            >
+              {isMobile ? "刷新" : "刷新"}
+            </Button>
+          </div>
           {isMobile && data.length > 0 && data[0].gztime && (
             <div style={{ textAlign: "center", fontSize: 12, color: "#999" }}>
               更新时间: {data[0].gztime}
