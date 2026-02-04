@@ -1,0 +1,30 @@
+.site-layout-content {
+  min-height: 280px;
+  padding: 24px;
+  background: #fff;
+}
+
+#root {
+  height: 100%;
+}
+
+@media (max-width: 768px) {
+  .site-layout-content {
+    padding: 12px;
+  }
+
+  .ant-layout-header {
+    padding: 0 12px !important;
+  }
+
+  .ant-layout-content {
+    padding: 0 12px !important;
+    margin-top: 12px !important;
+  }
+
+  /* Mobile Table Optimization */
+  .ant-table-thead>tr>th,
+  .ant-table-tbody>tr>td {
+    padding: 8px !important;
+  }
+}
