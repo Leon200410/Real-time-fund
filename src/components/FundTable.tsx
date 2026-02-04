@@ -1,15 +1,5 @@
 import React from "react";
-import {
-  Table,
-  Button,
-  Popconfirm,
-  Tag,
-  Tooltip,
-  Statistic,
-  Card,
-  Row,
-  Col,
-} from "antd";
+import { Table, Button, Popconfirm, Tag, Tooltip, Statistic, Card } from "antd";
 import {
   DeleteOutlined,
   ReloadOutlined,
@@ -100,30 +90,68 @@ const FundTable: React.FC<FundTableProps> = ({
             okText="是"
             cancelText="否"
           >
-            <Button type="text" danger icon={<DeleteOutlined />} size="small" style={{ minWidth: 24, padding: 0 }} />
+            <Button
+              type="text"
+              danger
+              icon={<DeleteOutlined />}
+              size="small"
+              style={{ minWidth: 24, padding: 0 }}
+            />
           </Popconfirm>
         }
       >
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 8 }}>
-            <div style={{ flex: '1 1 30%', minWidth: 80 }}>
-                <div style={{ color: "#888", fontSize: 11 }}>当日盈亏</div>
-                <div style={{ fontWeight: "bold", fontSize: 14, display: 'flex', flexWrap: 'wrap', alignItems: 'baseline', gap: 2 }}>
-                   <span style={{ color: dayGain > 0 ? "#cf1322" : dayGain < 0 ? "#3f8600" : "#000" }}>
-                      {dayGain > 0 ? "+" : ""}{dayGain.toFixed(2)}
-                   </span>
-                   <span style={{ fontSize: 12, fontWeight: 'normal', color: gszzl > 0 ? "#cf1322" : gszzl < 0 ? "#3f8600" : "gray" }}>
-                      ({gszzl > 0 ? "+" : ""}{item.gszzl}%)
-                   </span>
-                </div>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "flex-start",
+            flexWrap: "wrap",
+            gap: 8,
+          }}
+        >
+          <div style={{ flex: "1 1 30%", minWidth: 80 }}>
+            <div style={{ color: "#888", fontSize: 11 }}>当日盈亏</div>
+            <div
+              style={{
+                fontWeight: "bold",
+                fontSize: 14,
+                display: "flex",
+                flexWrap: "wrap",
+                alignItems: "baseline",
+                gap: 2,
+              }}
+            >
+              <span
+                style={{
+                  color:
+                    dayGain > 0 ? "#cf1322" : dayGain < 0 ? "#3f8600" : "#000",
+                }}
+              >
+                {dayGain > 0 ? "+" : ""}
+                {dayGain.toFixed(2)}
+              </span>
+              <span
+                style={{
+                  fontSize: 12,
+                  fontWeight: "normal",
+                  color: gszzl > 0 ? "#cf1322" : gszzl < 0 ? "#3f8600" : "gray",
+                }}
+              >
+                ({gszzl > 0 ? "+" : ""}
+                {item.gszzl}%)
+              </span>
             </div>
-            <div style={{ flex: '1 1 30%', minWidth: 80, textAlign: 'center' }}>
-                <div style={{ color: "#888", fontSize: 11 }}>持有市值</div>
-                <div style={{ fontSize: 14 }}>{marketVal.toFixed(2)}</div>
+          </div>
+          <div style={{ flex: "1 1 30%", minWidth: 80, textAlign: "center" }}>
+            <div style={{ color: "#888", fontSize: 11 }}>持有市值</div>
+            <div style={{ fontSize: 14 }}>{marketVal.toFixed(2)}</div>
+          </div>
+          <div style={{ flex: "1 1 30%", minWidth: 80, textAlign: "right" }}>
+            <div style={{ color: "#888", fontSize: 11 }}>持仓成本</div>
+            <div style={{ fontSize: 14 }}>
+              {cost > 0 ? cost.toFixed(2) : "--"}
             </div>
-            <div style={{ flex: '1 1 30%', minWidth: 80, textAlign: 'right' }}>
-                <div style={{ color: "#888", fontSize: 11 }}>持仓成本</div>
-                <div style={{ fontSize: 14 }}>{cost > 0 ? cost.toFixed(2) : '--'}</div>
-            </div>
+          </div>
         </div>
       </Card>
     );
