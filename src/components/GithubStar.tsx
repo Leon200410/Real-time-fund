@@ -23,9 +23,9 @@ const GithubStar: React.FC = () => {
         type="text" 
         icon={<GithubOutlined style={{ fontSize: '20px', color: 'white' }} />} 
         onClick={showModal}
-        style={{ color: 'white' }}
+        style={{ color: 'white', display: 'flex', alignItems: 'center' }}
       >
-        Star Project
+        <span className="star-btn-text">Star Project</span>
       </Button>
       <Modal
         title="支持本项目"

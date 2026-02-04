@@ -1,0 +1,16 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/fund/:match*",
+      "destination": "http://fundgz.1234567.com.cn/js/:match*"
+    },
+    {
+      "source": "/api/search/:match*",
+      "destination": "https://fundsuggest.eastmoney.com/FundSearch/api/FundSearchAPI.ashx/:match*"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}

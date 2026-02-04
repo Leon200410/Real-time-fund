@@ -118,11 +118,12 @@ const App: React.FC = () => {
           padding: "0 20px",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center" }}>
+        <div style={{ display: "flex", alignItems: "center", overflow: "hidden" }}>
           <FundOutlined
+            className="header-icon"
             style={{ color: "white", fontSize: "24px", marginRight: "10px" }}
           />
-          <Title level={3} style={{ color: "white", margin: 0 }}>
+          <Title level={3} className="header-title" style={{ color: "white", margin: 0 }}>
             实时基金估值助手
           </Title>
         </div>

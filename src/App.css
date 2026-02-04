@@ -28,3 +28,25 @@
     padding: 8px !important;
   }
 }
+
+@media (max-width: 576px) {
+  /* Hide Star button text on mobile */
+  .star-btn-text {
+    display: none;
+  }
+  
+  /* Adjust header title size on mobile */
+  .header-title {
+    font-size: 16px !important;
+    line-height: 1.4 !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  /* Adjust header icon size */
+  .header-icon {
+    font-size: 18px !important;
+    margin-right: 6px !important;
+  }
+}
