@@ -64,12 +64,14 @@ const FundTable: React.FC<FundTableProps> = ({
     const dayGain = item.share ? (gsz - dwjz) * item.share : 0;
     const marketVal = item.share ? gsz * item.share : 0;
     const gszzl = parseFloat(item.gszzl || "0");
+    const cost = item.cost || 0;
 
     return (
       <Card
         key={item.fundcode}
         size="small"
-        style={{ marginBottom: 12 }}
+        style={{ marginBottom: 8 }}
+        bodyStyle={{ padding: "8px 12px" }}
         title={
           <div
             style={{
@@ -82,7 +84,6 @@ const FundTable: React.FC<FundTableProps> = ({
               style={{
                 fontSize: 14,
                 fontWeight: "bold",
-                maxWidth: "70%",
                 whiteSpace: "nowrap",
                 overflow: "hidden",
                 textOverflow: "ellipsis",
@@ -90,10 +91,6 @@ const FundTable: React.FC<FundTableProps> = ({
             >
               {item.name || item.fundcode}
             </span>
-            <Tag color={gszzl > 0 ? "red" : gszzl < 0 ? "green" : "default"}>
-              {gszzl > 0 ? "+" : ""}
-              {item.gszzl}%
-            </Tag>
           </div>
         }
         extra={
@@ -103,40 +100,31 @@ const FundTable: React.FC<FundTableProps> = ({
             okText="是"
             cancelText="否"
           >
-            <Button type="text" danger icon={<DeleteOutlined />} size="small" />
+            <Button type="text" danger icon={<DeleteOutlined />} size="small" style={{ minWidth: 24, padding: 0 }} />
           </Popconfirm>
         }
       >
-        <Row gutter={[8, 8]}>
-          <Col span={12}>
-            <div style={{ color: "#888", fontSize: 12 }}>估算净值</div>
-            <div style={{ fontWeight: "bold", fontSize: 16 }}>
-              {item.gsz || "--"}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 8 }}>
+            <div style={{ flex: '1 1 30%', minWidth: 80 }}>
+                <div style={{ color: "#888", fontSize: 11 }}>当日盈亏</div>
+                <div style={{ fontWeight: "bold", fontSize: 14, display: 'flex', flexWrap: 'wrap', alignItems: 'baseline', gap: 2 }}>
+                   <span style={{ color: dayGain > 0 ? "#cf1322" : dayGain < 0 ? "#3f8600" : "#000" }}>
+                      {dayGain > 0 ? "+" : ""}{dayGain.toFixed(2)}
+                   </span>
+                   <span style={{ fontSize: 12, fontWeight: 'normal', color: gszzl > 0 ? "#cf1322" : gszzl < 0 ? "#3f8600" : "gray" }}>
+                      ({gszzl > 0 ? "+" : ""}{item.gszzl}%)
+                   </span>
+                </div>
             </div>
-          </Col>
-          <Col span={12} style={{ textAlign: "right" }}>
-            <div style={{ color: "#888", fontSize: 12 }}>当日盈亏</div>
-            <div
-              style={{
-                fontWeight: "bold",
-                fontSize: 16,
-                color:
-                  dayGain > 0 ? "#cf1322" : dayGain < 0 ? "#3f8600" : "#000",
-              }}
-            >
-              {dayGain > 0 ? "+" : ""}
-              {dayGain.toFixed(2)}
+            <div style={{ flex: '1 1 30%', minWidth: 80, textAlign: 'center' }}>
+                <div style={{ color: "#888", fontSize: 11 }}>持有市值</div>
+                <div style={{ fontSize: 14 }}>{marketVal.toFixed(2)}</div>
             </div>
-          </Col>
-          <Col span={12}>
-            <div style={{ color: "#888", fontSize: 12 }}>持有市值</div>
-            <div>{marketVal.toFixed(2)}</div>
-          </Col>
-          <Col span={12} style={{ textAlign: "right" }}>
-            <div style={{ color: "#888", fontSize: 12 }}>更新时间</div>
-            <div>{item.gztime ? item.gztime.split(" ")[1] : "--"}</div>
-          </Col>
-        </Row>
+            <div style={{ flex: '1 1 30%', minWidth: 80, textAlign: 'right' }}>
+                <div style={{ color: "#888", fontSize: 11 }}>持仓成本</div>
+                <div style={{ fontSize: 14 }}>{cost > 0 ? cost.toFixed(2) : '--'}</div>
+            </div>
+        </div>
       </Card>
     );
   };
@@ -336,34 +324,33 @@ const FundTable: React.FC<FundTableProps> = ({
           flexDirection: isMobile ? "column" : "row",
           justifyContent: "space-between",
           alignItems: isMobile ? "stretch" : "center",
-          gap: isMobile ? 12 : 0,
+          gap: isMobile ? 8 : 0,
         }}
       >
         <div
           style={{
             display: "flex",
-            gap: isMobile ? "10px" : "20px",
+            gap: isMobile ? "8px" : "20px",
             flexWrap: "wrap",
             justifyContent: isMobile ? "space-between" : "flex-start",
           }}
         >
           <Card
             size="small"
-            style={{ flex: isMobile ? "1 1 45%" : "none" }}
-            bodyStyle={{ padding: "8px 12px" }}
+            style={{ flex: isMobile ? "1 1 30%" : "none" }}
+            bodyStyle={{ padding: "8px" }}
           >
             <Statistic
               title="总市值"
               value={totalValue}
               precision={2}
-              prefix="¥"
-              valueStyle={{ fontSize: isMobile ? 18 : 24 }}
+              valueStyle={{ fontSize: isMobile ? 16 : 24 }}
             />
           </Card>
           <Card
             size="small"
-            style={{ flex: isMobile ? "1 1 45%" : "none" }}
-            bodyStyle={{ padding: "8px 12px" }}
+            style={{ flex: isMobile ? "1 1 30%" : "none" }}
+            bodyStyle={{ padding: "8px" }}
           >
             <Statistic
               title="当日盈亏"
@@ -371,7 +358,7 @@ const FundTable: React.FC<FundTableProps> = ({
               precision={2}
               valueStyle={{
                 color: totalDayGain >= 0 ? "#cf1322" : "#3f8600",
-                fontSize: isMobile ? 18 : 24,
+                fontSize: isMobile ? 16 : 24,
               }}
               prefix={
                 totalDayGain >= 0 ? <ArrowUpOutlined /> : <ArrowDownOutlined />
@@ -380,8 +367,8 @@ const FundTable: React.FC<FundTableProps> = ({
           </Card>
           <Card
             size="small"
-            style={{ flex: isMobile ? "1 1 100%" : "none" }}
-            bodyStyle={{ padding: "8px 12px" }}
+            style={{ flex: isMobile ? "1 1 30%" : "none" }}
+            bodyStyle={{ padding: "8px" }}
           >
             <Statistic
               title="持有收益"
@@ -389,7 +376,7 @@ const FundTable: React.FC<FundTableProps> = ({
               precision={2}
               valueStyle={{
                 color: totalHoldGain >= 0 ? "#cf1322" : "#3f8600",
-                fontSize: isMobile ? 18 : 24,
+                fontSize: isMobile ? 16 : 24,
               }}
               prefix={totalHoldGain >= 0 ? "+" : ""}
             />

@@ -118,32 +118,36 @@ const App: React.FC = () => {
           padding: "0 20px",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", overflow: "hidden" }}>
+        <div
+          style={{ display: "flex", alignItems: "center", overflow: "hidden" }}
+        >
           <FundOutlined
             className="header-icon"
             style={{ color: "white", fontSize: "24px", marginRight: "10px" }}
           />
-          <Title level={3} className="header-title" style={{ color: "white", margin: 0 }}>
+          <Title
+            level={3}
+            className="header-title"
+            style={{ color: "white", margin: 0 }}
+          >
             实时基金估值助手
           </Title>
         </div>
         <GithubStar />
       </Header>
       <Content style={{ padding: "0 50px", marginTop: "20px" }}>
-        <div className="site-layout-content">
-          <Card title="我的基金" variant="borderless">
-            <div style={{ marginBottom: 16 }}>
-              <AddFund onAdd={handleAddFund} />
-              <ExportFund funds={funds} />
-            </div>
-            <FundTable
-              data={funds}
-              loading={loading}
-              onRemove={handleRemoveFund}
-              onRefresh={loadData}
-            />
-          </Card>
-        </div>
+        <Card title="我的基金" variant="borderless">
+          <div style={{ marginBottom: 16 }}>
+            <AddFund onAdd={handleAddFund} />
+            <ExportFund funds={funds} />
+          </div>
+          <FundTable
+            data={funds}
+            loading={loading}
+            onRemove={handleRemoveFund}
+            onRefresh={loadData}
+          />
+        </Card>
       </Content>
       <Footer style={{ textAlign: "center" }}>
         Real-time Fund Valuation ©{new Date().getFullYear()} Created with React
