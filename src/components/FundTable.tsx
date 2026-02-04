@@ -411,15 +411,22 @@ const FundTable: React.FC<FundTableProps> = ({
           </Card>
         </div>
 
-        <Button
-          icon={<ReloadOutlined />}
-          onClick={onRefresh}
-          loading={loading}
-          block={isMobile}
-          type={isMobile ? "primary" : "default"}
-        >
-          {isMobile ? "刷新数据" : "刷新"}
-        </Button>
+        <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+          <Button
+            icon={<ReloadOutlined />}
+            onClick={onRefresh}
+            loading={loading}
+            block={isMobile}
+            type={isMobile ? "primary" : "default"}
+          >
+            {isMobile ? "刷新数据" : "刷新"}
+          </Button>
+          {isMobile && data.length > 0 && data[0].gztime && (
+            <div style={{ textAlign: "center", fontSize: 12, color: "#999" }}>
+              更新时间: {data[0].gztime}
+            </div>
+          )}
+        </div>
       </div>
 
       {isMobile ? (
