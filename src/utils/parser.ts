@@ -23,9 +23,6 @@ export const parseFundText = async (text: string): Promise<ParsedFundItem[]> => 
   const lines = text.split('\n').map(l => l.trim()).filter(l => l);
   const results: ParsedFundItem[] = [];
 
-  // Buffer for multiline detection (Alipay style) - DEPRECATED
-  let nameBuffer: string | null = null;
-
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
     
@@ -58,7 +55,7 @@ export const parseFundText = async (text: string): Promise<ParsedFundItem[]> => 
   // Use Promise.all to process in parallel
   const processedResults = await Promise.all(results.map(async (item) => {
     if (item.status === 'pending') {
-      const updatedItem = { ...item, status: 'searching' as const };
+      const updatedItem: ParsedFundItem = { ...item, status: 'searching' };
       try {
         let matchedCode = updatedItem.code;
         
